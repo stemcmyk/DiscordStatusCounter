@@ -101,7 +101,7 @@ const run = async () => {
 
 process.stdin.resume(); //so the program will not close instantly
 
-function exitHandler(options, exitCode) {
+function exitHandler(options: any, exitCode: any) {
   sendOfflineNotice();
   if (options.cleanup) console.log("clean");
   if (exitCode || exitCode === 0) console.log(exitCode);

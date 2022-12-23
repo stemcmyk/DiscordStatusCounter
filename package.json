@@ -2,11 +2,13 @@
   "name": "discordstatusincrementer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.ts.js",
   "scripts": {
-    "dev": "nodemon -x ts-node index.ts",
-    "start": "ts-node index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./dist/index.js",
+    "server": "ts-node ./src/index.ts",
+    "client": "cd ./ && npm start --prefix client",
+    "build": "tsc",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +21,7 @@
     "typescript": "^4.9.4"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "@types/node": "^18.11.17"
   }
 }
