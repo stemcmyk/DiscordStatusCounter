@@ -10,7 +10,7 @@ db.serialize(() => {
   db.run("INSERT INTO value (value) VALUES (0)");
 });
 
-export interface dateStartedInterface {
+export interface DateStarted {
   date_started: number;
 }
 
@@ -20,7 +20,7 @@ const setDateStarted = () => {
   // Check if date started is already set
   db.get(
     "SELECT date_started FROM date_started",
-    (err, row: dateStartedInterface) => {
+    (err: Error, row: DateStarted) => {
       if (err) {
         return null;
       }
@@ -37,7 +37,7 @@ const setDateStarted = () => {
 
 const incrementValue = async () => {
   return new Promise((resolve, reject) => {
-    return db.run("UPDATE value SET value = value + 1", (err) => {
+    return db.run("UPDATE value SET value = value + 1", (err: Error) => {
       if (err) {
         console.error(err);
         return;
@@ -49,14 +49,22 @@ const incrementValue = async () => {
 
 const getValue = async () => {
   return new Promise((resolve, reject) => {
-    return db.get("SELECT value FROM value", (err, row) => {
-      if (err) {
-        console.error(err);
-        return;
+    return db.get(
+      "SELECT value FROM value",
+      (
+        err: Error,
+        row: {
+          value: number;
+        }
+      ) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log("Got value", row.value);
+        resolve(row.value);
       }
-      console.log("Got value", row.value);
-      resolve(row.value);
-    });
+    );
   });
 };
 
@@ -65,7 +73,7 @@ const _getDateStarted = async () => {
   return new Promise((resolve, reject) => {
     return db.get(
       "SELECT date_started FROM date_started",
-      (err, row: dateStartedInterface) => {
+      (err: Error, row: DateStarted) => {
         if (err) {
           console.error(err);
           return;
